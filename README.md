@@ -205,6 +205,47 @@ main(void)
 UNIX系统确保每个进程都有一个唯一的数字标识符，称为进程ID，进程ID总是一个非负整数。
 可以使用getpid()函数获取当前进程ID，getpid 返回一个pid_t数据类型，不确定具体大小，但跟据相关标准可以确定其返回值可以保存在一个long长整型中。
 3. 进程的控制 有3个用于进程控制的主要函数： fork 、 exec 和 waitpid。（exec函数有7种变体，但经常把它们统称为exec函数）
+实例： 《从标准输入读入命令并执行》
+```c
+#include	<sys/types.h>
+#include	<sys/wait.h>
+#include	"ourhdr.h"
+
+int
+main(void)
+{
+	char	buf[MAXLINE];
+	pid_t	pid;
+	int		status;
+
+	printf("%% ");	/* print prompt (printf requires %% to print %) */
+	while (fgets(buf, MAXLINE, stdin) != NULL) {
+		buf[strlen(buf) - 1] = 0;	/* replace newline with null */
+
+		if ( (pid = fork()) < 0)
+			err_sys("fork error");
+
+		else if (pid == 0) {		/* child */
+			execlp(buf, buf, (char *) 0);
+			err_ret("couldn't execute: %s", buf);
+			exit(127);
+		}
+
+		/* parent */
+		if ( (pid = waitpid(pid, &status, 0)) < 0)
+			err_sys("waitpid error");
+		printf("%% ");
+	}
+	exit(0);
+}
+/*
+注
+execlp 函数要求的参数是以null结束的
+*/
 
 
+```
 
+4 线程和线程ID 一个进程内的所有线程共享迥一地址空间、文件描述符、栈以及与进程相关的属性，它们能够访问同一存储区，各线程在访问共享数据时需要采取同步措施避免不一致性
+
+* 1.7 出错处理
