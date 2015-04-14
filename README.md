@@ -12,6 +12,8 @@ unix操作系统体系结构：内核-》系统调用-》SHELL & 公共函数 -�
 2. 文件名  创建新目录时会自动创建两个文件名： .(称为点) 和 ..(称为点点)。点指向当前目录，点点指向父目录。
 在最高层次的根目录中，点点与点相同。
 3. 路径名  文件系统根的名字（/）是一个特殊的绝对路径名，它不包含文件名。
+
+* 代码实例 《列出一个目录中的所有文件》
 ```c
 #include	<sys/types.h>
 #include	<dirent.h>
@@ -35,4 +37,22 @@ main(int argc, char *argv[])
 	closedir(dp);
 	exit(0);
 }
+```
+
+```shell
+本书所有源码下载地址：http://www.apuebook.com/src.3e.tar.gz
+tar zxvf src.3e.tar.gz
+make
+可能会出错这时按下面的操作：
+1）ubuntu
+sudo apt-get install libbsd-dev
+2) fedora, redhat, centos
+2.1) 下载两个包
+2.1a) i386
+ftp://ftp.univie.ac.at/systems/linux/fedora/epel/6/i386/libbsd-0.6.0-1.el6.i686.rpm
+ftp://ftp.univie.ac.at/systems/linux/fedora/epel/6/i386/libbsd-devel-0.6.0-1.el6.i686.rpm
+2.1b) x86_64
+ftp://ftp.univie.ac.at/systems/linux/fedora/epel/6/x86_64/libbsd-0.6.0-1.el6.x86_64.rpm
+ftp://ftp.univie.ac.at/systems/linux/fedora/epel/6/x86_64/libbsd-devel-0.6.0-1.el6.x86_64.rpm
+
 ```
