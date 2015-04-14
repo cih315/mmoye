@@ -37,6 +37,12 @@ main(int argc, char *argv[])
 	closedir(dp);
 	exit(0);
 }
+/*
+cc ls1.c 
+编译
+历史上，cc是C编译器。在配置了GNU C 编译系统的系统中，C编译器是gcc， cc 通常链接至 gcc。
+
+*/
 ```
 
 ```shell
