@@ -40,6 +40,8 @@ main(int argc, char *argv[])
 ```
 
 ```shell
+http://www.apuebook.com/code3e.html
+http://www.yendor.com/programming/unix/apue/apue.html
 本书所有源码下载地址：http://www.apuebook.com/src.3e.tar.gz
 tar zxvf src.3e.tar.gz
 make
