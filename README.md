@@ -12,4 +12,27 @@ unix操作系统体系结构：内核-》系统调用-》SHELL & 公共函数 -�
 2. 文件名  创建新目录时会自动创建两个文件名： .(称为点) 和 ..(称为点点)。点指向当前目录，点点指向父目录。
 在最高层次的根目录中，点点与点相同。
 3. 路径名  文件系统根的名字（/）是一个特殊的绝对路径名，它不包含文件名。
+```c
+#include	<sys/types.h>
+#include	<dirent.h>
+#include	"ourhdr.h"
 
+int
+main(int argc, char *argv[])
+{
+	DIR				*dp;
+	struct dirent	*dirp;
+
+	if (argc != 2)
+		err_quit("a single argument (the directory name) is required");
+
+	if ( (dp = opendir(argv[1])) == NULL)
+		err_sys("can't open %s", argv[1]);
+
+	while ( (dirp = readdir(dp)) != NULL)
+		printf("%s\n", dirp->d_name);
+
+	closedir(dp);
+	exit(0);
+}
+```
