@@ -142,3 +142,30 @@ __文件描述符__ 通常是一个小的非负整数，内核用以标识一个
 如果不做特殊处理，如ls命令，则这3个描述符都链接向终端（显示器）。大多数shell都提供一种方法，使其中任何一个或所有3个描述符都能重新定向到某个文件。例如 ls > file.list
 3. 不带缓冲的i/o
 函数 open 、 read 、 write 、 lseek 以及 close 提供了不带缓冲的I/O 。 这些函数都使用文件描述符。
+
+*实例 《将标准输入复制到标准输出》
+```c
+// mycat.c
+
+#include	"ourhdr.h"
+
+#define	BUFFSIZE	8192
+
+int
+main(void)
+{
+	int		n;
+	char	buf[BUFFSIZE];
+
+	while ( (n = read(STDIN_FILENO, buf, BUFFSIZE)) > 0)
+		if (write(STDOUT_FILENO, buf, n) != n)
+			err_sys("write error");
+
+	if (n < 0)
+		err_sys("read error");
+
+	exit(0);
+}
+```
+相关说明：
+STDIN_FILENO 和 STDOUT_FILENO 是 POSIX 标准的一部分，定义在unistd.h 头文件中，他们指定了标准输入和标准输出的文件描述符。在POSIX标准中，他们的值分别是0和1，考虑到可读性，我们将使用这些名字来表示这些常量。
