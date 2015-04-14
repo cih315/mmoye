@@ -172,3 +172,31 @@ STDIN_FILENO 和 STDOUT_FILENO 是 POSIX 标准的一部分，定义在unistd.h 
 
 read 函数返回0，程序停止执行。如果发生错误则返回-1.
 
+* 标准I/O 
+使用标准I/O函数无需担心如何选择最佳的缓冲区大小。
+如 fgets 函数读取一行完整的行，而read函数读取指定字节数。
+
+这段代码跟上面的功能相似，但使用的是标准I/O函数
+
+标准I/O常量 stdin 和 stdout 定义在头文件 stdio.h 中。
+
+```c
+#include	"ourhdr.h"
+
+int
+main(void)
+{
+	int		c;
+
+	while ( (c = getc(stdin)) != EOF)
+		if (putc(c, stdout) == EOF)
+			err_sys("output error");
+
+	if (ferror(stdin))
+		err_sys("input error");
+
+	exit(0);
+}
+```
+* 1.6 程序和进程
+
